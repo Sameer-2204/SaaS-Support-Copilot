@@ -16,11 +16,30 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code and data
 COPY . .
 
-# Pre-download model weights at build time to avoid cold-start delay
+# Pre-export both models to ONNX at build time (baked into image, no torch at inference)
 ENV SENTENCE_TRANSFORMERS_HOME=/app/models_cache
-RUN python -c "from sentence_transformers import SentenceTransformer; \
-    SentenceTransformer('all-MiniLM-L6-v2'); \
-    SentenceTransformer('cross-encoder/ms-marco-MiniLM-L-6-v2')"
+RUN python -c "
+import os
+
+# Embedder: sentence-transformers ONNX backend (natively supported)
+print('Exporting embedder to ONNX...')
+from sentence_transformers import SentenceTransformer
+SentenceTransformer('all-MiniLM-L6-v2', backend='onnx')
+print('Embedder ONNX export done')
+
+# Cross-encoder: use optimum ORTModelForSequenceClassification
+print('Exporting cross-encoder to ONNX...')
+from optimum.onnxruntime import ORTModelForSequenceClassification
+from transformers import AutoTokenizer
+cache_dir = '/app/models_cache/cross-encoder-onnx'
+os.makedirs(cache_dir, exist_ok=True)
+model = ORTModelForSequenceClassification.from_pretrained(
+    'cross-encoder/ms-marco-MiniLM-L-6-v2', export=True
+)
+model.save_pretrained(cache_dir)
+AutoTokenizer.from_pretrained('cross-encoder/ms-marco-MiniLM-L-6-v2').save_pretrained(cache_dir)
+print(f'Cross-encoder ONNX saved to {cache_dir}')
+"
 
 # Build BM25 index from source data (no DB needed for this step)
 RUN python -m scripts.ingest && python -m scripts.build_bm25
