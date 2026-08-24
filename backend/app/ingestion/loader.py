@@ -36,7 +36,7 @@ def load_support_dialogues(output_dir: Optional[str] = None) -> list[dict]:
 
     # Use cache if available
     if os.path.exists(cache_path):
-        with open(cache_path) as f:
+        with open(cache_path, encoding="utf-8-sig") as f:
             return json.load(f)
 
     os.makedirs(output_dir, exist_ok=True)
@@ -113,7 +113,7 @@ def load_changelogs(changelogs_dir: Optional[str] = None) -> list[dict]:
     entries = []
 
     for fpath in glob.glob(os.path.join(changelogs_dir, "*.json")):
-        with open(fpath) as f:
+        with open(fpath, encoding="utf-8-sig") as f:
             data = json.load(f)
             if isinstance(data, list):
                 entries.extend(data)
@@ -161,7 +161,7 @@ def load_api_errors(errors_dir: Optional[str] = None) -> list[dict]:
     entries = []
 
     for fpath in glob.glob(os.path.join(errors_dir, "*.json")):
-        with open(fpath) as f:
+        with open(fpath, encoding="utf-8-sig") as f:
             data = json.load(f)
             if isinstance(data, list):
                 entries.extend(data)
@@ -215,7 +215,7 @@ def load_resolved_tickets_json(tickets_dir: Optional[str] = None) -> list[dict]:
     entries = []
 
     for fpath in glob.glob(os.path.join(tickets_dir, "*.json")):
-        with open(fpath, encoding="utf-8") as f:
+        with open(fpath, encoding="utf-8-sig") as f:
             data = json.load(f)
             if isinstance(data, list):
                 entries.extend(data)
@@ -261,7 +261,7 @@ def load_product_docs_json(docs_dir: Optional[str] = None) -> list[dict]:
         if not os.path.exists(scan_dir):
             continue
         for fpath in glob.glob(os.path.join(scan_dir, "*.json")):
-            with open(fpath, encoding="utf-8") as f:
+            with open(fpath, encoding="utf-8-sig") as f:
                 data = json.load(f)
                 if isinstance(data, list):
                     entries.extend(data)
