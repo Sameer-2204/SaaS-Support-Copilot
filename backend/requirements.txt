@@ -12,7 +12,7 @@ pgvector==0.3.6
 # Embeddings & Reranking (ONNX backend — low RAM, no GPU needed)
 sentence-transformers==3.3.1
 optimum[onnxruntime]>=1.20.0
-torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
 
 # BM25
 rank-bm25==0.2.2
