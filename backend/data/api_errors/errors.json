@@ -1,0 +1,251 @@
+[
+  {
+    "id": "err_shop_001",
+    "product": "shopify",
+    "error_code": "401",
+    "http_status": 401,
+    "message": "Unauthorized — Invalid API credentials",
+    "description": "Your API key or access token is invalid, expired, or doesn't have the required permissions for this operation.",
+    "common_causes": [
+      "API key was regenerated but not updated in your app",
+      "Access token expired (private app tokens don't expire, but custom app tokens do)",
+      "App doesn't have the required access scope for this endpoint"
+    ],
+    "resolution_steps": [
+      "Verify your API credentials in the Shopify Admin > Apps > your app",
+      "Check that your app has the required access scopes",
+      "If using a custom app, regenerate the access token",
+      "Ensure you're using the correct store URL in your API calls"
+    ]
+  },
+  {
+    "id": "err_shop_002",
+    "product": "shopify",
+    "error_code": "422",
+    "http_status": 422,
+    "message": "Unprocessable Entity — Validation Error",
+    "description": "The request body contains invalid data. Shopify could not process the entity due to validation errors.",
+    "common_causes": [
+      "Required fields missing (e.g., product title, variant price)",
+      "Invalid data types (e.g., string instead of number for price)",
+      "Duplicate values (e.g., SKU already exists)",
+      "Exceeding field length limits"
+    ],
+    "resolution_steps": [
+      "Check the error response body for specific field-level errors",
+      "Review the Shopify API documentation for required fields",
+      "Validate your data before sending to the API",
+      "For product imports, use the bulk operations API for better error handling"
+    ]
+  },
+  {
+    "id": "err_shop_003",
+    "product": "shopify",
+    "error_code": "429",
+    "http_status": 429,
+    "message": "Too Many Requests — Rate Limited",
+    "description": "You've exceeded the API rate limit. Shopify uses a leaky bucket algorithm: 40 requests per app per store, with a leak rate of 2 per second.",
+    "common_causes": [
+      "Making too many API calls in rapid succession",
+      "Not implementing proper rate limiting in your integration",
+      "Multiple processes making concurrent API calls to the same store"
+    ],
+    "resolution_steps": [
+      "Check the 'X-Shopify-Shop-Api-Call-Limit' header in responses",
+      "Implement exponential backoff when you receive a 429",
+      "Use bulk operations API for large data operations",
+      "Batch operations where possible (e.g., GraphQL bulk mutations)",
+      "Consider using webhooks instead of polling for data changes"
+    ]
+  },
+  {
+    "id": "err_strp_001",
+    "product": "stripe",
+    "error_code": "card_declined",
+    "http_status": 402,
+    "message": "Payment Required — Card Declined",
+    "description": "The customer's card was declined by the card issuer. The specific decline reason is provided in the decline_code field.",
+    "common_causes": [
+      "Insufficient funds on the card",
+      "Card reported lost or stolen",
+      "Card expired",
+      "Incorrect CVC code",
+      "Fraud prevention by the issuing bank"
+    ],
+    "resolution_steps": [
+      "Check the decline_code in the error response for the specific reason",
+      "For 'insufficient_funds': customer needs to use a different card",
+      "For 'expired_card': customer needs to update their card details",
+      "For 'incorrect_cvc': ask customer to re-enter their card details",
+      "For 'generic_decline': customer should contact their bank",
+      "Consider implementing Stripe's Adaptive Acceptance for automatic retries"
+    ]
+  },
+  {
+    "id": "err_strp_002",
+    "product": "stripe",
+    "error_code": "resource_missing",
+    "http_status": 404,
+    "message": "Not Found — Resource Missing",
+    "description": "The requested resource (customer, payment intent, subscription, etc.) does not exist or cannot be found with the provided ID.",
+    "common_causes": [
+      "Using a test mode ID in live mode (or vice versa)",
+      "The resource was deleted",
+      "Typo in the resource ID",
+      "Using an ID from a different Stripe account"
+    ],
+    "resolution_steps": [
+      "Verify you're using the correct API keys (test vs live)",
+      "Check the resource ID format (e.g., 'pi_' for PaymentIntents, 'cus_' for Customers)",
+      "Search for the resource in the Stripe Dashboard",
+      "If migrating between test and live, remember resources don't transfer between modes"
+    ]
+  },
+  {
+    "id": "err_strp_003",
+    "product": "stripe",
+    "error_code": "webhook_signature_verification_failed",
+    "http_status": 400,
+    "message": "Bad Request — Webhook Signature Verification Failed",
+    "description": "The webhook event signature does not match. This can indicate the event was tampered with or the wrong signing secret is being used.",
+    "common_causes": [
+      "Using the wrong webhook signing secret",
+      "Reading the request body before verification (body was modified)",
+      "Using a signing secret from a different webhook endpoint",
+      "Clock skew between your server and Stripe (timestamp tolerance is 300 seconds)"
+    ],
+    "resolution_steps": [
+      "Get the correct signing secret from Dashboard > Developers > Webhooks > select endpoint > Signing secret",
+      "Ensure you're reading the raw request body (not parsed JSON) for verification",
+      "Use the Stripe SDK's built-in verification: stripe.webhooks.constructEvent(body, sig, secret)",
+      "If using Express.js, use express.raw() middleware for the webhook route",
+      "Test locally with the Stripe CLI: stripe listen --forward-to localhost:4242/webhook"
+    ]
+  },
+  {
+    "id": "err_twl_001",
+    "product": "twilio",
+    "error_code": "21211",
+    "http_status": 400,
+    "message": "Invalid 'To' Phone Number",
+    "description": "The 'To' phone number is not a valid phone number. Twilio requires numbers in E.164 format.",
+    "common_causes": [
+      "Number not in E.164 format (missing country code)",
+      "Number contains spaces, dashes, or parentheses",
+      "Invalid country code",
+      "Number is too short or too long for the country"
+    ],
+    "resolution_steps": [
+      "Format all numbers in E.164: +[country code][number] (e.g., +14155551234)",
+      "Remove all non-numeric characters except the leading +",
+      "Use the Twilio Lookup API to validate numbers before sending",
+      "For US numbers: +1 followed by 10 digits",
+      "For UK numbers: +44 followed by 10 digits (dropping the leading 0)"
+    ]
+  },
+  {
+    "id": "err_twl_002",
+    "product": "twilio",
+    "error_code": "21610",
+    "http_status": 400,
+    "message": "Message Blocked — Opt-Out",
+    "description": "The recipient has opted out of receiving messages by replying STOP to a previous message from your number.",
+    "common_causes": [
+      "Customer previously replied STOP to opt out",
+      "Number was previously used by another business and contacts opted out",
+      "Regulatory compliance blocking"
+    ],
+    "resolution_steps": [
+      "Respect the opt-out — do not attempt to send to this number again",
+      "If the customer wants to re-subscribe, they must text START to your number",
+      "Review your opt-out list: Console > Messaging > Opt-Out Management",
+      "Implement proper opt-in/opt-out flows in your application",
+      "Include opt-out instructions in every message: 'Reply STOP to unsubscribe'"
+    ]
+  },
+  {
+    "id": "err_twl_003",
+    "product": "twilio",
+    "error_code": "20003",
+    "http_status": 401,
+    "message": "Authentication Error",
+    "description": "Your Account SID or Auth Token is invalid. Twilio could not authenticate the request.",
+    "common_causes": [
+      "Auth Token was recently rotated but not updated in your app",
+      "Using Account SID from a subaccount with the main account's Auth Token",
+      "Credentials contain leading/trailing whitespace",
+      "Using API Keys instead of Account SID/Auth Token (different format)"
+    ],
+    "resolution_steps": [
+      "Find your credentials at Console > Account > General Settings",
+      "Check for whitespace in your environment variables",
+      "If you recently rotated your Auth Token, update all services immediately",
+      "For subaccounts, use the subaccount's own SID and Auth Token pair",
+      "Consider using API Keys for better security and easier rotation"
+    ]
+  },
+  {
+    "id": "err_vcl_001",
+    "product": "vercel",
+    "error_code": "FUNCTION_INVOCATION_TIMEOUT",
+    "http_status": 504,
+    "message": "Gateway Timeout — Function Invocation Timeout",
+    "description": "The Serverless Function did not respond within the timeout limit. Hobby plan: 10s, Pro: 60s.",
+    "common_causes": [
+      "Database query taking too long",
+      "External API call timing out",
+      "Infinite loop or deadlock in function code",
+      "Cold start + heavy computation exceeding timeout"
+    ],
+    "resolution_steps": [
+      "Add request timeouts to all external API calls (set to 5s for Hobby)",
+      "Optimize database queries — add indexes, reduce query complexity",
+      "Use Edge Functions for faster cold starts: export const config = { runtime: 'edge' }",
+      "Move heavy processing to background jobs (Vercel Cron, queue service)",
+      "Check function logs: Project > Functions > select function > Logs",
+      "Consider upgrading to Pro for 60s timeout if optimization isn't sufficient"
+    ]
+  },
+  {
+    "id": "err_vcl_002",
+    "product": "vercel",
+    "error_code": "FUNCTION_PAYLOAD_TOO_LARGE",
+    "http_status": 413,
+    "message": "Payload Too Large — Request body exceeds limit",
+    "description": "The request or response body exceeds the maximum size limit for Serverless Functions (4.5 MB for request, 4.5 MB for response).",
+    "common_causes": [
+      "Uploading large files through an API route",
+      "API response returning too much data",
+      "Base64-encoded images in the request/response body",
+      "Fetching and returning large datasets without pagination"
+    ],
+    "resolution_steps": [
+      "For file uploads: use direct-to-storage uploads (Vercel Blob, S3 presigned URLs)",
+      "Paginate large data responses",
+      "Compress response data (gzip is handled automatically by Vercel)",
+      "For images: use Vercel Image Optimization instead of passing raw image data",
+      "Use streaming responses for large payloads: return new ReadableStream()"
+    ]
+  },
+  {
+    "id": "err_vcl_003",
+    "product": "vercel",
+    "error_code": "DEPLOYMENT_NOT_FOUND",
+    "http_status": 404,
+    "message": "Not Found — Deployment does not exist",
+    "description": "The requested deployment URL does not correspond to any existing deployment in your project.",
+    "common_causes": [
+      "Old deployment URL that has been cleaned up",
+      "Deployment was deleted or failed",
+      "Using a preview URL from a deleted branch",
+      "Project was removed and recreated with the same name"
+    ],
+    "resolution_steps": [
+      "Check your project's Deployments tab for the current active deployment",
+      "If using preview URLs, verify the branch/PR still exists",
+      "Use your custom domain or the production deployment URL instead",
+      "For automated systems: use the Vercel API to fetch the latest deployment URL",
+      "Check if the deployment is in a different team/account"
+    ]
+  }
+]

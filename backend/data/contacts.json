@@ -1,0 +1,30 @@
+{
+  "shopify": {
+    "department": "Store Operations",
+    "email": "store-support@ecomco.com",
+    "phone": "+1 (800) 555-0101",
+    "hours": "Mon-Fri 9AM-6PM EST",
+    "specialties": ["Store setup", "Products & inventory", "Themes & design", "Orders & shipping", "Discounts & marketing"]
+  },
+  "stripe": {
+    "department": "Payments & Billing",
+    "email": "billing@ecomco.com",
+    "phone": "+1 (800) 555-0102",
+    "hours": "24/7 for payment emergencies, Mon-Fri 9AM-6PM EST for general inquiries",
+    "specialties": ["Payment processing", "Refunds & disputes", "Subscriptions", "Checkout integration", "Payouts"]
+  },
+  "twilio": {
+    "department": "Communications & Notifications",
+    "email": "comms-support@ecomco.com",
+    "phone": "+1 (800) 555-0103",
+    "hours": "Mon-Fri 9AM-6PM EST",
+    "specialties": ["SMS notifications", "Two-factor authentication", "Voice calls", "Email (SendGrid)", "Message delivery"]
+  },
+  "vercel": {
+    "department": "Website & Infrastructure",
+    "email": "tech-support@ecomco.com",
+    "phone": "+1 (800) 555-0104",
+    "hours": "Mon-Fri 9AM-9PM EST, Sat 10AM-4PM EST",
+    "specialties": ["Deployments & builds", "Custom domains", "Serverless functions", "Performance optimization", "Environment configuration"]
+  }
+}

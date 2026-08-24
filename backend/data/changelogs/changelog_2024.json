@@ -1,0 +1,187 @@
+[
+  {
+    "id": "cl_shop_001",
+    "product": "shopify",
+    "version": "Winter 2025",
+    "date": "2025-01-15",
+    "category": "platform",
+    "title": "Shopify Winter 2025 Edition — AI-Powered Store Management",
+    "description": "Shopify introduces AI-powered product description generator, automated inventory forecasting, and enhanced checkout customization. Merchants can now use Shopify Magic to generate SEO-optimized product descriptions from photos.",
+    "breaking_changes": [],
+    "migration_notes": "No migration needed. New features are opt-in from the admin dashboard."
+  },
+  {
+    "id": "cl_shop_002",
+    "product": "shopify",
+    "version": "2024.12",
+    "date": "2024-12-01",
+    "category": "checkout",
+    "title": "One-Page Checkout Redesign",
+    "description": "Complete redesign of the checkout experience. Single-page checkout reduces friction and improves conversion rates by up to 15%. Custom checkout UI extensions are now supported for Plus merchants.",
+    "breaking_changes": [
+      "Legacy checkout.liquid customizations will be deprecated by March 2025"
+    ],
+    "migration_notes": "Migrate checkout customizations to Checkout UI extensions. See migration guide at shopify.dev/docs/checkout-migration."
+  },
+  {
+    "id": "cl_shop_003",
+    "product": "shopify",
+    "version": "2024.11",
+    "date": "2024-11-15",
+    "category": "shipping",
+    "title": "Enhanced Shipping Rate Calculator",
+    "description": "Real-time shipping rate calculation now supports more carriers including FedEx Ground, DHL Express, and regional carriers. Merchants can set delivery promises and display estimated delivery dates at checkout.",
+    "breaking_changes": [],
+    "migration_notes": "Enable in Settings > Shipping and delivery > Carrier accounts."
+  },
+  {
+    "id": "cl_shop_004",
+    "product": "shopify",
+    "version": "2024.10",
+    "date": "2024-10-01",
+    "category": "payments",
+    "title": "Shopify Payments — New Payment Methods",
+    "description": "Added support for Buy Now Pay Later (BNPL) through Shop Pay Installments, Klarna, and Afterpay. Automatic currency conversion for international orders now available on all plans.",
+    "breaking_changes": [],
+    "migration_notes": "BNPL options appear automatically at checkout. Disable specific providers in Settings > Payments."
+  },
+  {
+    "id": "cl_strp_001",
+    "product": "stripe",
+    "version": "2024-12-18.acacia",
+    "date": "2024-12-18",
+    "category": "api",
+    "title": "API Version 2024-12-18.acacia",
+    "description": "New API version with enhanced subscription scheduling, improved webhook delivery reliability, and expanded support for 25+ additional payment methods across 45 new countries.",
+    "breaking_changes": [
+      "PaymentIntent.charges field is now expandable only (not included by default)",
+      "Customer.sources is deprecated — use PaymentMethods API instead"
+    ],
+    "migration_notes": "Pin your API version in your Stripe Dashboard. Test against the new version using test mode before upgrading."
+  },
+  {
+    "id": "cl_strp_002",
+    "product": "stripe",
+    "version": "2024-11-01",
+    "date": "2024-11-01",
+    "category": "checkout",
+    "title": "Stripe Checkout — Embedded Mode Improvements",
+    "description": "Embedded Checkout now supports custom fonts, colors, and layout options. New 'payment element' mode allows full control over the checkout form while maintaining PCI compliance.",
+    "breaking_changes": [],
+    "migration_notes": "Update your Stripe.js to v4.x for new embedded mode features."
+  },
+  {
+    "id": "cl_strp_003",
+    "product": "stripe",
+    "version": "2024-10-15",
+    "date": "2024-10-15",
+    "category": "billing",
+    "title": "Revenue Recovery — Smart Retries 2.0",
+    "description": "Enhanced machine learning model for automatic payment retries. Now recovers up to 40% more failed subscription payments. Includes new dunning email templates and customer payment update portal.",
+    "breaking_changes": [],
+    "migration_notes": "Smart Retries 2.0 is enabled automatically. Customize retry settings in Dashboard > Settings > Billing."
+  },
+  {
+    "id": "cl_strp_004",
+    "product": "stripe",
+    "version": "2024-09-01",
+    "date": "2024-09-01",
+    "category": "security",
+    "title": "Enhanced Radar Fraud Protection Rules",
+    "description": "New custom fraud rules builder with visual rule editor. Support for velocity checks, IP reputation scoring, and device fingerprinting. Machine learning model updated with latest fraud patterns.",
+    "breaking_changes": [],
+    "migration_notes": "Access new rules at Dashboard > Radar > Rules. Existing rules are preserved."
+  },
+  {
+    "id": "cl_twl_001",
+    "product": "twilio",
+    "version": "2024-12",
+    "date": "2024-12-01",
+    "category": "messaging",
+    "title": "Rich Content Messaging (RCS) Support",
+    "description": "Send rich messages with carousels, quick reply buttons, and media cards via RCS (Rich Communication Services). Supported on Android devices in 30+ countries. Falls back to SMS automatically.",
+    "breaking_changes": [],
+    "migration_notes": "RCS is available through the existing Messaging API. Add 'ContentSid' parameter to enable rich content."
+  },
+  {
+    "id": "cl_twl_002",
+    "product": "twilio",
+    "version": "2024-11",
+    "date": "2024-11-15",
+    "category": "verify",
+    "title": "Twilio Verify — Silent Network Authentication",
+    "description": "Verify phone numbers silently using the cellular network — no SMS or code needed. Reduces friction for mobile app authentication. Supports T-Mobile, AT&T, and Verizon in the US.",
+    "breaking_changes": [],
+    "migration_notes": "Enable Silent Network Auth in your Verify Service settings. Requires SDK update."
+  },
+  {
+    "id": "cl_twl_003",
+    "product": "twilio",
+    "version": "2024-10",
+    "date": "2024-10-01",
+    "category": "compliance",
+    "title": "10DLC Campaign Registration Streamlined",
+    "description": "Simplified A2P 10DLC registration process. Self-service brand and campaign registration now takes minutes instead of days. Auto-approval for standard use cases (notifications, 2FA, alerts).",
+    "breaking_changes": [
+      "Unregistered numbers will have reduced throughput (1 msg/sec) starting January 2025"
+    ],
+    "migration_notes": "Register your brand and campaigns at Console > Messaging > Compliance before January 2025."
+  },
+  {
+    "id": "cl_twl_004",
+    "product": "twilio",
+    "version": "2024-09",
+    "date": "2024-09-15",
+    "category": "platform",
+    "title": "Twilio Segment Integration — Unified Customer Profiles",
+    "description": "Native integration with Twilio Segment for unified customer profiles. Send personalized messages based on real-time customer behavior, purchase history, and engagement patterns.",
+    "breaking_changes": [],
+    "migration_notes": "Connect Segment from Console > Integrations. Requires a Segment account."
+  },
+  {
+    "id": "cl_vcl_001",
+    "product": "vercel",
+    "version": "2024-12",
+    "date": "2024-12-01",
+    "category": "platform",
+    "title": "Vercel Fluid Compute — Smarter Serverless",
+    "description": "New compute model that automatically adjusts function concurrency and resource allocation. Functions can now handle multiple requests concurrently, reducing cold starts by up to 80%.",
+    "breaking_changes": [],
+    "migration_notes": "Opt-in via vercel.json: { \"functions\": { \"**/*.js\": { \"supportsMultipleRequests\": true } } }"
+  },
+  {
+    "id": "cl_vcl_002",
+    "product": "vercel",
+    "version": "2024-11",
+    "date": "2024-11-15",
+    "category": "framework",
+    "title": "Next.js 15 Support — Turbopack Stable",
+    "description": "Full support for Next.js 15 with stable Turbopack bundler. 10x faster builds and 4x faster development hot module replacement. Partial Prerendering (PPR) now stable.",
+    "breaking_changes": [
+      "Minimum Node.js version is now 18.18.0"
+    ],
+    "migration_notes": "Update next to 15.x. See the Next.js upgrade guide for breaking changes."
+  },
+  {
+    "id": "cl_vcl_003",
+    "product": "vercel",
+    "version": "2024-10",
+    "date": "2024-10-01",
+    "category": "security",
+    "title": "Vercel Firewall — DDoS Protection & WAF",
+    "description": "Built-in Web Application Firewall with managed rulesets for common attack patterns. Custom rules support IP-based, geo-based, and rate-limiting protections. Automatic DDoS mitigation on all plans.",
+    "breaking_changes": [],
+    "migration_notes": "Firewall is enabled by default. Customize rules in Project Settings > Security."
+  },
+  {
+    "id": "cl_vcl_004",
+    "product": "vercel",
+    "version": "2024-09",
+    "date": "2024-09-15",
+    "category": "analytics",
+    "title": "Vercel Web Analytics — Core Web Vitals Dashboard",
+    "description": "Real-time Core Web Vitals monitoring with LCP, FID, CLS, and INP tracking. Page-level performance breakdown with recommendations. Integrates with Speed Insights for actionable optimization suggestions.",
+    "breaking_changes": [],
+    "migration_notes": "Enable in Project Settings > Analytics. Add the @vercel/analytics package to your app."
+  }
+]

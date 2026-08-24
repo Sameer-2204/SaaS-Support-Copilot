@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# Data (large files, not for git)
+backend/data/raw/
+backend/data/bm25_index.pkl
+backend/data/chunks_lookup.json
+backend/data/processed/all_chunks.json
+backend/models_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Eval results (regeneratable)
+backend/eval/results/
+
+# Vite
+frontend/dist/
