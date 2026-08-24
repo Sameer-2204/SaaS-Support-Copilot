@@ -22,10 +22,14 @@ RUN python -c "from sentence_transformers import SentenceTransformer; \
     SentenceTransformer('all-MiniLM-L6-v2'); \
     SentenceTransformer('cross-encoder/ms-marco-MiniLM-L-6-v2')"
 
-# Run ingestion pipeline to build processed chunks + BM25 index
-# (embed_and_store requires DATABASE_URL at runtime, so it runs on first request)
+# Build BM25 index from source data (no DB needed for this step)
 RUN python -m scripts.ingest && python -m scripts.build_bm25
+
+# Hugging Face Spaces runs as non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Use shell form so $PORT env var works on both HF Spaces and Railway
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
